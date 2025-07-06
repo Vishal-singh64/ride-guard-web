@@ -9,7 +9,7 @@ import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
-import { AlertTriangle, CheckCircle2, Phone, Loader2, ArrowRight } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Phone, Loader2, ArrowRight, ShieldCheck } from 'lucide-react';
 import { post } from '@/services/apiService';
 import { ApiRoutes } from '@/constants/apiRoutes';
 import { AppRoutes } from '@/constants/appRoutes';
@@ -44,81 +44,79 @@ export function HomePageClient() {
   };
 
   return (
-    <div className="w-full">
-      <section className="relative overflow-hidden py-20 md:py-32">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/20 bg-[length:200%_200%] animate-background-pan" />
-        <div className="container mx-auto text-center px-4 relative z-10">
-          <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tight">Protect Your Ride</h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground">
-            Instantly check phone numbers for reported fraud. Keep our driver community safe, one check at a time.
-          </p>
+    <div className="flex flex-col items-center justify-center flex-grow px-4 text-center">
+      <div className="w-full max-w-2xl">
+        <div className="mb-8 flex items-center justify-center gap-3 animate-fade-in">
+          <ShieldCheck className="h-12 w-12 text-primary md:h-16 md:w-16" />
+          <h1 className="font-headline text-5xl font-bold text-foreground md:text-6xl">
+            Ride Guard
+          </h1>
         </div>
-      </section>
-
-      <section className="container mx-auto px-4 -mt-16 relative z-10 pb-20">
-        <Card className="max-w-2xl mx-auto shadow-xl">
-          <CardHeader>
-            <CardTitle className="font-headline text-2xl flex items-center justify-center gap-2">
-              <Phone className="text-primary" />
-              Check a Phone Number
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+        
+        <div className="w-full max-w-lg mx-auto">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full items-start space-x-2">
-                <FormField
-                  control={form.control}
-                  name="phoneNumber"
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormLabel className="sr-only">Phone Number</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter phone number..." {...field} className="h-12 text-lg" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" className="h-12 text-lg" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Checking...
-                    </>
-                  ) : (
-                    'Check Number'
-                  )}
-                </Button>
-              </form>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel className="sr-only">Phone Number</FormLabel>
+                        <FormControl>
+                            <div className="relative">
+                                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                <Input 
+                                    placeholder="Enter phone number..." 
+                                    {...field} 
+                                    className="h-14 text-lg pl-12 w-full rounded-full shadow-lg focus-visible:ring-primary focus-visible:ring-2" 
+                                />
+                            </div>
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    <Button type="submit" size="lg" className="h-12 px-8 text-lg rounded-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                        <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Checking
+                        </>
+                    ) : (
+                        'Search'
+                    )}
+                    </Button>
+                </form>
             </Form>
-          </CardContent>
-        </Card>
+        </div>
 
         {searchResult && (
-           <Card className="mt-8 max-w-2xl mx-auto animate-fade-in">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3">
-                   {searchResult.isFraud ? <AlertTriangle className="text-destructive"/> : <CheckCircle2 className="text-green-600"/>}
-                   Result for {searchResult.number}
-                </CardTitle>
-                <CardDescription>
-                  {searchResult.isFraud ? "This number has reports of fraudulent activity." : "No fraud reports found for this number."}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                    Click the button below to see a detailed report, including community comments.
-                </p>
-                <Button asChild className="mt-4 w-full md:w-auto">
-                    <Link href={AppRoutes.NUMBER_DETAILS(searchResult.number)}>
-                        View Detailed Report
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                </Button>
-              </CardContent>
-           </Card>
+            <div className="mt-8 w-full max-w-lg mx-auto animate-fade-in">
+                <Card className="shadow-lg text-left">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3">
+                        {searchResult.isFraud ? <AlertTriangle className="text-destructive"/> : <CheckCircle2 className="text-accent"/>}
+                        Result for {searchResult.number}
+                        </CardTitle>
+                        <CardDescription>
+                        {searchResult.isFraud ? "This number has reports of fraudulent activity." : "No fraud reports found for this number."}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-muted-foreground">
+                            Click the button below to see a detailed report, including community comments.
+                        </p>
+                        <Button asChild className="mt-4 w-full sm:w-auto">
+                            <Link href={AppRoutes.NUMBER_DETAILS(searchResult.number)}>
+                                View Detailed Report
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
         )}
-      </section>
+      </div>
     </div>
   );
 }

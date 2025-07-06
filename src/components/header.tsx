@@ -17,7 +17,9 @@ import { cn } from '@/lib/utils';
 import React from 'react';
 import LanguageSwitcher from './language-switcher';
 import { AppRoutes } from '@/constants/appRoutes';
-import { useAuth } from '@/hooks/use-auth';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store/store';
+import { logout } from '@/store/authSlice';
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar';
 
 const navLinks = [
@@ -29,7 +31,12 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
-  const { isAuthenticated, user, logout } = useAuth();
+  const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   const getInitials = (name = '') => {
     return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
@@ -88,7 +95,7 @@ export function Header() {
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={logout}>
+                        <DropdownMenuItem onClick={handleLogout}>
                             <LogOut className="mr-2 h-4 w-4" />
                             <span>Log out</span>
                         </DropdownMenuItem>
@@ -151,7 +158,7 @@ export function Header() {
                             </Link>
                         </SheetClose>
                         <SheetClose asChild>
-                            <Button variant="outline" className="w-full" onClick={logout}>
+                            <Button variant="outline" className="w-full" onClick={handleLogout}>
                                 <LogOut className="mr-2 h-4 w-4" />
                                 Log Out
                             </Button>

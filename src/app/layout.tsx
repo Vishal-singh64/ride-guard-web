@@ -3,7 +3,7 @@ import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from "@/ui/toaster";
-import { AuthProvider } from '@/context/auth-context';
+import StoreProvider from '@/store/StoreProvider';
 
 export const metadata: Metadata = {
   title: 'Ride Guard - Fraud Prevention for Cab Drivers',
@@ -24,14 +24,14 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased flex flex-col min-h-screen">
-        <AuthProvider>
+        <StoreProvider>
           <Header />
           <main className="flex-grow">
             {children}
           </main>
           <Footer />
           <Toaster />
-        </AuthProvider>
+        </StoreProvider>
       </body>
     </html>
   );

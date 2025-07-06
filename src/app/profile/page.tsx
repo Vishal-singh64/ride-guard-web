@@ -1,6 +1,7 @@
 'use client';
 
-import { useAuth } from '@/hooks/use-auth';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar';
 import { Mail, Flag, Coins, Loader2 } from 'lucide-react';
@@ -9,7 +10,7 @@ import { useEffect } from 'react';
 import { AppRoutes } from '@/constants/appRoutes';
 
 export default function ProfilePage() {
-    const { user, isAuthenticated, loading } = useAuth();
+    const { user, isAuthenticated, loading } = useSelector((state: RootState) => state.auth);
     const router = useRouter();
 
     useEffect(() => {

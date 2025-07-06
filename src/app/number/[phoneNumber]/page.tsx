@@ -5,7 +5,8 @@ import { useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/ui/card';
 import { AlertTriangle, MessageSquare, DollarSign, Hash, Loader2, UserPlus } from 'lucide-react';
 import { AddCommentForm } from '@/components/add-comment-form';
-import { useAuth } from '@/hooks/use-auth';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 import { Button } from '@/ui/button';
 import Link from 'next/link';
 import { AppRoutes } from '@/constants/appRoutes';
@@ -30,7 +31,7 @@ interface NumberDetails {
 export default function NumberDetailsPage() {
     const params = useParams();
     const { phoneNumber } = params;
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
     const [details, setDetails] = useState<NumberDetails | null>(null);
     const [loading, setLoading] = useState(true);

@@ -37,7 +37,8 @@ export async function POST(request: Request) {
                 // Adding mock data for profile page
                 fraudsReported: Math.floor(Math.random() * 20),
                 coins: Math.floor(Math.random() * 500),
-            }
+            },
+            token: "mock-jwt-token-for-" + email,
         });
 
     } catch (error) {

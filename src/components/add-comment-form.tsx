@@ -9,7 +9,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from "@/hooks/use-toast";
 import { post } from '@/services/apiService';
 import { ApiRoutes } from '@/constants/apiRoutes';
-import { useAuth } from '@/hooks/use-auth';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 import { Loader2 } from 'lucide-react';
 
 const commentSchema = z.object({
@@ -25,7 +26,7 @@ interface AddCommentFormProps {
 
 export function AddCommentForm({ phoneNumber, onCommentAdded }: AddCommentFormProps) {
     const { toast } = useToast();
-    const { user } = useAuth();
+    const { user } = useSelector((state: RootState) => state.auth);
     
     const form = useForm<CommentFormValues>({
         resolver: zodResolver(commentSchema),

@@ -8,9 +8,13 @@ import { Input } from '@/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
 import { Loader2 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from '@/hooks/use-auth';
+import { post } from '@/services/apiService';
+import { ApiRoutes } from '@/constants/apiRoutes';
 import { useRouter } from 'next/navigation';
 import { AppRoutes } from '@/constants/appRoutes';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '@/store/authSlice';
+import type { User } from '@/store/authSlice';
 
 const loginSchema = z.object({
     email: z.string().email('Please enter a valid email address.'),
@@ -21,7 +25,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
     const { toast } = useToast();
-    const { login } = useAuth();
+    const dispatch = useDispatch();
     const router = useRouter();
     
     const form = useForm<LoginFormValues>({
@@ -36,14 +40,20 @@ export function LoginForm() {
 
     const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
         try {
-            await login(data.email, data.password);
-            toast({
-                title: "Login Successful",
-                description: "Welcome back!",
-            });
-            router.push(AppRoutes.HOME);
+            const response = await post<{ success: boolean; user: User; token: string; message?: string }>(ApiRoutes.LOGIN, data);
+            
+            if (response.success) {
+                dispatch(loginSuccess({ user: response.user, token: response.token }));
+                toast({
+                    title: "Login Successful",
+                    description: "Welcome back!",
+                });
+                router.push(AppRoutes.HOME);
+            } else {
+                 throw new Error(response.message || 'Login failed');
+            }
         } catch (error: any) {
-            const message = error?.message || "Invalid email or password.";
+            const message = error?.response?.data?.message || error.message || "Invalid email or password.";
             toast({
                 variant: "destructive",
                 title: "Login Failed",

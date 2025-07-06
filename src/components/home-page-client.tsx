@@ -44,8 +44,8 @@ export function HomePageClient() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center flex-grow px-4 text-center">
-      <div className="w-full max-w-2xl">
+    <div className="flex flex-col items-center justify-center px-4 text-center h-full">
+      <div className=" flex flex-col justify-center items-centers h-full w-full max-w-2xl border-2">
         <div className="mb-8 flex items-center justify-center gap-3 animate-fade-in">
           <ShieldCheck className="h-12 w-12 text-primary md:h-16 md:w-16" />
           <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl font-bold text-foreground">

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/ui/toaster"
 
 export const metadata: Metadata = {
   title: 'Ride Guard - Fraud Prevention for Cab Drivers',

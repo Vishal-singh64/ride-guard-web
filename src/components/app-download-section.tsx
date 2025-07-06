@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { Apple, Smartphone } from 'lucide-react';
 import Image from "next/image";
 import { AppRoutes } from '@/constants/appRoutes';

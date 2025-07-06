@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,8 +9,8 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogDescription,
-} from '@/components/ui/dialog';
-import { Card, CardContent } from '@/components/ui/card';
+} from '@/ui/dialog';
+import { Card, CardContent } from '@/ui/card';
 import { Globe } from 'lucide-react';
 
 const languages = [

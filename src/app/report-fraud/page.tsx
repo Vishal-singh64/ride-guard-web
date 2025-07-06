@@ -1,5 +1,5 @@
 import { FraudReportForm } from '@/components/fraud-report-form';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/ui/card';
 
 export default function ReportFraudPage() {
     return (

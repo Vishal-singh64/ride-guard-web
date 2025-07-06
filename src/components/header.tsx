@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShieldCheck, Menu } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Button } from '@/ui/button';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/ui/sheet';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import LanguageSwitcher from './language-switcher';

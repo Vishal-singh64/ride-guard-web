@@ -67,12 +67,12 @@ export function HomePageClient({ checkNumberAction }: HomePageClientProps) {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full items-start space-x-2">
                 <FormField
                   control={form.control}
                   name="phoneNumber"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex-1">
                       <FormLabel className="sr-only">Phone Number</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter phone number..." {...field} className="h-12 text-lg" />
@@ -81,7 +81,7 @@ export function HomePageClient({ checkNumberAction }: HomePageClientProps) {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full h-12 text-lg" disabled={isSubmitting}>
+                <Button type="submit" className="h-12 text-lg" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />

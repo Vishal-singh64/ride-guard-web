@@ -47,9 +47,6 @@ export function RegisterForm() {
 
     const onSubmit: SubmitHandler<RegisterFormValues> = async (data) => {
         try {
-            // NOTE: In a real app, you would handle the file upload to a storage service
-            // and get back a URL to save with the user profile.
-            // For this demo, we are not uploading the image.
             const payload = { 
                 name: data.name,
                 email: data.email,
@@ -59,10 +56,10 @@ export function RegisterForm() {
             
             if (result.success) {
                 toast({
-                    title: "Registration Successful",
-                    description: "You can now log in with your new account.",
+                    title: "OTP Sent",
+                    description: result.message,
                 });
-                router.push(AppRoutes.LOGIN);
+                router.push(`${AppRoutes.OTP_VERIFICATION}?email=${encodeURIComponent(data.email)}`);
             } else {
                  toast({
                     variant: "destructive",
@@ -101,7 +98,7 @@ export function RegisterForm() {
                                 <Input 
                                     type="file" 
                                     id="profileImage"
-                                    className="sr-only" // Hide the default input
+                                    className="sr-only" 
                                     accept="image/*"
                                     onChange={(e) => {
                                         const file = e.target.files?.[0];

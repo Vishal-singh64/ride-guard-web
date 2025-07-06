@@ -5,4 +5,5 @@ export const ApiRoutes = {
   ADD_COMMENT: '/api/add-comment',
   LOGIN: '/api/auth/login',
   REGISTER: '/api/auth/register',
+  VERIFY_OTP: '/api/auth/verify-otp',
 };

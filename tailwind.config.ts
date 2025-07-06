@@ -6,6 +6,7 @@ export default {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/ui/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     container: {
@@ -104,12 +105,17 @@ export default {
           "50%": { "background-position": "100% 50%" },
           "100%": { "background-position": "0% 50%" },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         "fade-in": "fade-in 0.5s ease-in-out",
         "background-pan": "background-pan 15s ease-in-out infinite",
+        "caret-blink": "caret-blink 1.2s ease-out infinite",
       },
     },
   },

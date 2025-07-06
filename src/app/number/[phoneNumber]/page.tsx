@@ -9,10 +9,13 @@ import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/ui/button';
 import Link from 'next/link';
 import { AppRoutes } from '@/constants/appRoutes';
+import { formatDistanceToNow } from 'date-fns';
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar';
 
 interface Comment {
     id: number;
     author: string;
+    authorName: string;
     text: string;
     date: string;
 }
@@ -64,6 +67,10 @@ export default function NumberDetailsPage() {
             });
         }
     };
+
+    const getInitials = (name = '') => {
+        return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+    }
 
 
     if (loading) {
@@ -134,11 +141,20 @@ export default function NumberDetailsPage() {
                                 {details.comments.length > 0 ? (
                                     details.comments.map((comment) => (
                                         <Card key={comment.id} className="bg-background">
-                                            <CardContent className="p-4">
-                                                <p className="text-foreground">{comment.text}</p>
-                                                <p className="text-xs text-muted-foreground mt-2">
-                                                    Reported by {comment.author} on {new Date(comment.date).toLocaleDateString()}
-                                                </p>
+                                            <CardContent className="p-4 flex gap-4 items-start">
+                                                <Avatar>
+                                                    <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${comment.authorName}`} alt={comment.authorName} />
+                                                    <AvatarFallback>{getInitials(comment.authorName)}</AvatarFallback>
+                                                </Avatar>
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <p className="font-semibold text-foreground">{comment.authorName}</p>
+                                                        <p className="text-xs text-muted-foreground">
+                                                            {formatDistanceToNow(new Date(comment.date), { addSuffix: true })}
+                                                        </p>
+                                                    </div>
+                                                    <p className="text-foreground mt-1">{comment.text}</p>
+                                                </div>
                                             </CardContent>
                                         </Card>
                                     ))

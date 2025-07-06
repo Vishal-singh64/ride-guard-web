@@ -63,6 +63,7 @@ export function AddCommentForm({ phoneNumber, onCommentAdded }: AddCommentFormPr
                     id: Date.now(), // temporary ID for UI update
                     text: data.comment,
                     author: user.email,
+                    authorName: user.name,
                     date: new Date().toISOString(),
                 });
                 form.reset();

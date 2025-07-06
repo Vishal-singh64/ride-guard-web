@@ -60,7 +60,7 @@ export function HomePageClient({ checkNumberAction }: HomePageClientProps) {
       <section className="container mx-auto px-4 -mt-16 relative z-10">
         <Card className="max-w-2xl mx-auto shadow-xl">
           <CardHeader>
-            <CardTitle className="font-headline text-2xl flex items-center gap-2">
+            <CardTitle className="font-headline text-2xl flex items-center justify-center gap-2">
               <Phone className="text-primary" />
               Check a Phone Number
             </CardTitle>

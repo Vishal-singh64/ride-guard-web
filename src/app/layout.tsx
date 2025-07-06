@@ -5,7 +5,7 @@ import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'CabSafe - Fraud Prevention for Cab Drivers',
+  title: 'Ride Guard - Fraud Prevention for Cab Drivers',
   description: 'Check and report fraudulent phone numbers to keep the cab driver community safe. Your trusted partner against scams.',
   keywords: ['cab driver', 'fraud prevention', 'scam check', 'phone number lookup', 'safety'],
 };

@@ -9,7 +9,7 @@ export function AppDownloadSection() {
             <div className="container mx-auto px-4">
                 <div className="bg-primary text-primary-foreground rounded-lg shadow-lg p-8 md:p-12 lg:flex lg:items-center lg:justify-between">
                     <div className="lg:w-0 lg:flex-1">
-                        <h2 className="text-3xl font-headline font-bold tracking-tight">Get CabSafe on the Go</h2>
+                        <h2 className="text-3xl font-headline font-bold tracking-tight">Get Ride Guard on the Go</h2>
                         <p className="mt-4 max-w-3xl text-lg text-primary-foreground/80">
                             Download our mobile app for real-time fraud alerts, offline access to the database, and one-tap reporting.
                         </p>

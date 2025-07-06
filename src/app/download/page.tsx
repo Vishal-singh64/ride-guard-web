@@ -7,7 +7,7 @@ export default function DownloadPage() {
         <div className="bg-background animate-fade-in">
             <section className="bg-secondary/50 py-20 md:py-32">
                 <div className="container mx-auto text-center px-4">
-                <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tight">Get CabSafe on the Go</h1>
+                <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tight">Get Ride Guard on the Go</h1>
                 <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground">
                     Download our mobile app for real-time fraud alerts, offline access to the database, and one-tap reporting.
                 </p>

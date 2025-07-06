@@ -25,7 +25,7 @@ export function Header() {
         <div className="mr-4 flex">
           <Link href="/" className="flex items-center space-x-2">
             <ShieldCheck className="h-7 w-7 text-primary" />
-            <span className="font-bold font-headline text-xl">CabSafe</span>
+            <span className="font-bold font-headline text-xl">Ride Guard</span>
           </Link>
         </div>
         <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
@@ -57,7 +57,7 @@ export function Header() {
               <div className="flex flex-col p-4">
                 <Link href="/" className="mb-8 flex items-center space-x-2">
                   <ShieldCheck className="h-7 w-7 text-primary" />
-                  <span className="font-bold font-headline text-xl">CabSafe</span>
+                  <span className="font-bold font-headline text-xl">Ride Guard</span>
                 </Link>
                 <nav className="flex flex-col space-y-4">
                   {navLinks.map((link) => (

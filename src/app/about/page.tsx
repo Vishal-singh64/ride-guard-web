@@ -11,7 +11,7 @@ export default function AboutPage() {
         {
             icon: <Users className="h-10 w-10 text-primary" />,
             title: 'Community-Powered',
-            description: 'CabSafe is powered by you. Every report submitted helps build a comprehensive database of fraudulent numbers, making the entire driver community more resilient against scams.',
+            description: 'Ride Guard is powered by you. Every report submitted helps build a comprehensive database of fraudulent numbers, making the entire driver community more resilient against scams.',
         },
         {
             icon: <Handshake className="h-10 w-10 text-primary" />,

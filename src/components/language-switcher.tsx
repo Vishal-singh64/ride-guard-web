@@ -28,7 +28,9 @@ const LanguageSwitcher = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const googleTranslateElementInit = () => {
+    const scriptId = 'google-translate-script';
+
+    window.googleTranslateElementInit = () => {
       if (window.google && window.google.translate) {
         new window.google.translate.TranslateElement(
           {
@@ -41,10 +43,6 @@ const LanguageSwitcher = () => {
         );
       }
     };
-
-    const scriptId = 'google-translate-script';
-    
-    window.googleTranslateElementInit = googleTranslateElementInit;
 
     if (!document.getElementById(scriptId)) {
       const addScript = document.createElement('script');
@@ -85,7 +83,7 @@ const LanguageSwitcher = () => {
 
   return (
     <>
-      <div id="google_translate_element" className="hidden"></div>
+      <div id="google_translate_element" className="w-0 h-0 overflow-hidden absolute"></div>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button variant="ghost" size="icon">

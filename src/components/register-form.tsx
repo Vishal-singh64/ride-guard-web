@@ -6,17 +6,21 @@ import { z } from 'zod';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
-import { Loader2 } from 'lucide-react';
+import { Loader2, User } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { post } from '@/services/apiService';
 import { ApiRoutes } from '@/constants/apiRoutes';
 import { useRouter } from 'next/navigation';
 import { AppRoutes } from '@/constants/appRoutes';
+import { useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar';
 
 const registerSchema = z.object({
+    name: z.string().min(2, 'Name must be at least 2 characters.'),
     email: z.string().email('Please enter a valid email address.'),
     password: z.string().min(8, 'Password must be at least 8 characters.'),
-    confirmPassword: z.string()
+    confirmPassword: z.string(),
+    profileImage: z.any().optional(),
 }).refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
@@ -27,21 +31,32 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 export function RegisterForm() {
     const { toast } = useToast();
     const router = useRouter();
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
+            name: '',
             email: '',
             password: '',
             confirmPassword: '',
         },
     });
 
-    const { formState: { isSubmitting } } = form;
+    const { formState: { isSubmitting }, control } = form;
 
     const onSubmit: SubmitHandler<RegisterFormValues> = async (data) => {
         try {
-            const result = await post<{ success: boolean; message: string }>(ApiRoutes.REGISTER, { email: data.email, password: data.password });
+            // NOTE: In a real app, you would handle the file upload to a storage service
+            // and get back a URL to save with the user profile.
+            // For this demo, we are not uploading the image.
+            const payload = { 
+                name: data.name,
+                email: data.email,
+                password: data.password
+            };
+            const result = await post<{ success: boolean; message: string }>(ApiRoutes.REGISTER, payload);
+            
             if (result.success) {
                 toast({
                     title: "Registration Successful",
@@ -69,7 +84,56 @@ export function RegisterForm() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                  <FormField
-                    control={form.control}
+                    control={control}
+                    name="profileImage"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-col items-center">
+                            <Avatar className="h-24 w-24 mb-2">
+                                <AvatarImage src={imagePreview ?? undefined} alt="Profile preview" />
+                                <AvatarFallback>
+                                    <User className="h-12 w-12" />
+                                </AvatarFallback>
+                            </Avatar>
+                            <FormLabel htmlFor="profileImage" className="font-semibold cursor-pointer text-primary hover:underline">
+                                Upload Profile Picture
+                            </FormLabel>
+                            <FormControl>
+                                <Input 
+                                    type="file" 
+                                    id="profileImage"
+                                    className="sr-only" // Hide the default input
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                            field.onChange(file);
+                                            setImagePreview(URL.createObjectURL(file));
+                                        } else {
+                                            field.onChange(null);
+                                            setImagePreview(null);
+                                        }
+                                    }}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                 <FormField
+                    control={control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="font-semibold">Full Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="John Doe" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                 <FormField
+                    control={control}
                     name="email"
                     render={({ field }) => (
                         <FormItem>
@@ -82,7 +146,7 @@ export function RegisterForm() {
                     )}
                 />
                 <FormField
-                    control={form.control}
+                    control={control}
                     name="password"
                     render={({ field }) => (
                         <FormItem>
@@ -95,7 +159,7 @@ export function RegisterForm() {
                     )}
                 />
                  <FormField
-                    control={form.control}
+                    control={control}
                     name="confirmPassword"
                     render={({ field }) => (
                         <FormItem>

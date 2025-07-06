@@ -67,10 +67,10 @@ const LanguageSwitcher = () => {
       <div id="google_translate_element" style={{ display: 'none' }}></div>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <Globe className="h-5 w-5" />
+          <div className='h-6 w-6'>
+            <Globe className="h-6 w-6" />
             <span className="sr-only">Change language</span>
-          </Button>
+          </div>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[480px]">
           <DialogHeader>

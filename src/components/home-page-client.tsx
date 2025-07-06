@@ -27,7 +27,7 @@ type SearchResult = {
 
 export function HomePageClient() {
   const [searchResult, setSearchResult] = useState<SearchResult>(null);
-  const { formState: { isSubmitting }, ...form } = useForm<PhoneFormValues>({
+  const form = useForm<PhoneFormValues>({
     resolver: zodResolver(phoneSchema),
     defaultValues: { phoneNumber: '' },
   });
@@ -44,8 +44,8 @@ export function HomePageClient() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 text-center h-full">
-      <div className=" flex flex-col justify-center items-centers h-full w-full max-w-2xl border-2">
+    <div className="flex flex-col items-center justify-center px-4 text-center h-[75vh]">
+      <div className=" flex flex-col justify-center items-centers w-full max-w-2xl">
         <div className="mb-8 flex items-center justify-center gap-3 animate-fade-in">
           <ShieldCheck className="h-12 w-12 text-primary md:h-16 md:w-16" />
           <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl font-bold text-foreground">
@@ -76,8 +76,8 @@ export function HomePageClient() {
                         </FormItem>
                     )}
                     />
-                    <Button type="submit" size="lg" className="h-12 px-6 text-base md:text-lg md:px-8 rounded-full" disabled={isSubmitting}>
-                    {isSubmitting ? (
+                    <Button type="submit" size="lg" className="h-12 px-6 text-base md:text-lg md:px-8 rounded-full" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting ? (
                         <>
                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                         Checking

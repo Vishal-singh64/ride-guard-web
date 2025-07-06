@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
 import { Globe } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
 
 const languages = [
   { key: 'en', code: 'en', name: 'English' },
@@ -25,11 +24,11 @@ const languages = [
 
 const LanguageSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     const scriptId = 'google-translate-script';
 
+    // Define the callback function on the window object
     window.googleTranslateElementInit = () => {
       if (window.google && window.google.translate) {
         new window.google.translate.TranslateElement(
@@ -44,6 +43,7 @@ const LanguageSwitcher = () => {
       }
     };
 
+    // Add the script to the page if it doesn't exist
     if (!document.getElementById(scriptId)) {
       const addScript = document.createElement('script');
       addScript.id = scriptId;
@@ -54,36 +54,17 @@ const LanguageSwitcher = () => {
   }, []);
 
   const handleLanguageChange = (langCode: string) => {
-    let retries = 0;
-    const maxRetries = 25;
-    const interval = 200;
-
-    const tryChangeLanguage = () => {
-        const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
-        if (selectElement) {
-            selectElement.value = langCode;
-            selectElement.dispatchEvent(new Event('change', { bubbles: true }));
-            setIsOpen(false);
-        } else if (retries < maxRetries) {
-            retries++;
-            setTimeout(tryChangeLanguage, interval);
-        } else {
-            console.error("Google Translate element could not be found after several retries.");
-            setIsOpen(false);
-            toast({
-                variant: "destructive",
-                title: "Translation Failed",
-                description: "The language translator could not be initialized. Please try again later.",
-            });
-        }
-    };
-
-    tryChangeLanguage();
+    const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
+    if (selectElement) {
+        selectElement.value = langCode;
+        selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    setIsOpen(false);
   };
 
   return (
     <>
-      <div id="google_translate_element" className="w-0 h-0 overflow-hidden absolute"></div>
+      <div id="google_translate_element" style={{ display: 'none' }}></div>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button variant="ghost" size="icon">

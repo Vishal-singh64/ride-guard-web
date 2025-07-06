@@ -6,6 +6,7 @@ export const AppRoutes = {
   LOGIN: '/login',
   REGISTER: '/register',
   OTP_VERIFICATION: '/otp-verification',
+  PROFILE: '/profile',
   NUMBER_DETAILS: (phone: string) => `/number/${phone}`,
   APP_STORE: '#',
   GOOGLE_PLAY: '#',

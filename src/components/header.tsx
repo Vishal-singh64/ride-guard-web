@@ -2,9 +2,17 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ShieldCheck, Menu, LogOut } from 'lucide-react';
+import { ShieldCheck, Menu, LogOut, User as UserIcon } from 'lucide-react';
 import { Button } from '@/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/ui/sheet';
+import { 
+    DropdownMenu, 
+    DropdownMenuContent, 
+    DropdownMenuItem, 
+    DropdownMenuLabel, 
+    DropdownMenuSeparator, 
+    DropdownMenuTrigger 
+} from '@/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import LanguageSwitcher from './language-switcher';
@@ -53,16 +61,39 @@ export function Header() {
         <div className="flex flex-1 items-center justify-end space-x-2">
           <div className="hidden md:flex items-center space-x-2">
              <LanguageSwitcher />
-            {isAuthenticated ? (
-               <>
-                 <Avatar>
-                    <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.name}`} alt={user?.name} />
-                    <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
-                 </Avatar>
-                <Button variant="ghost" size="icon" onClick={logout} aria-label="Logout">
-                  <LogOut className="h-5 w-5" />
-                </Button>
-               </>
+            {isAuthenticated && user ? (
+               <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                            <Avatar className="h-10 w-10">
+                                <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} alt={user.name} />
+                                <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+                            </Avatar>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56" align="end" forceMount>
+                        <DropdownMenuLabel className="font-normal">
+                            <div className="flex flex-col space-y-1">
+                                <p className="text-sm font-medium leading-none">{user.name}</p>
+                                <p className="text-xs leading-none text-muted-foreground">
+                                    {user.email}
+                                </p>
+                            </div>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href={AppRoutes.PROFILE}>
+                                <UserIcon className="mr-2 h-4 w-4" />
+                                <span>Profile</span>
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={logout}>
+                            <LogOut className="mr-2 h-4 w-4" />
+                            <span>Log out</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             ) : (
               <>
                  <Button asChild variant="ghost">
@@ -81,20 +112,22 @@ export function Header() {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
-              <div className="flex flex-col p-4">
-                <Link href="/" className="mb-8 flex items-center space-x-2">
-                  <ShieldCheck className="h-7 w-7 text-primary" />
-                  <span className="font-bold font-headline text-xl">Ride Guard</span>
-                </Link>
-                <nav className="flex flex-col space-y-4">
+            <SheetContent side="right" className="p-0">
+               <div className="flex h-full flex-col">
+                <div className="p-4 border-b">
+                    <Link href="/" className="flex items-center space-x-2">
+                      <ShieldCheck className="h-7 w-7 text-primary" />
+                      <span className="font-bold font-headline text-xl">Ride Guard</span>
+                    </Link>
+                </div>
+                <nav className="flex flex-col p-4 space-y-1 flex-grow">
                   {navLinks.map((link) => (
                     <SheetClose asChild key={link.href}>
                         <Link
                           href={link.href}
                           className={cn(
-                            'text-lg transition-colors hover:text-primary',
-                            pathname === link.href ? 'text-primary' : 'text-foreground'
+                            'text-lg rounded-md p-2 transition-colors hover:bg-accent hover:text-accent-foreground',
+                            pathname === link.href ? 'bg-accent text-accent-foreground' : 'text-foreground'
                           )}
                         >
                           {link.label}
@@ -102,19 +135,27 @@ export function Header() {
                     </SheetClose>
                   ))}
                 </nav>
-                <div className="mt-8 border-t pt-4">
-                  {isAuthenticated ? (
-                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <Avatar>
-                                <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.name}`} alt={user?.name} />
-                                <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
-                            </Avatar>
-                            <span>{user?.name}</span>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => { logout(); /* need to close sheet here */}}>
-                            <LogOut />
-                        </Button>
+                <div className="border-t p-4">
+                  {isAuthenticated && user ? (
+                    <div className="flex flex-col space-y-4">
+                        <SheetClose asChild>
+                            <Link href={AppRoutes.PROFILE} className="flex items-center gap-3 rounded-md p-2 hover:bg-accent">
+                                <Avatar className="h-10 w-10">
+                                    <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} alt={user.name} />
+                                    <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="font-semibold">{user.name}</p>
+                                    <p className="text-sm text-muted-foreground">View Profile</p>
+                                </div>
+                            </Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                            <Button variant="outline" className="w-full" onClick={logout}>
+                                <LogOut className="mr-2 h-4 w-4" />
+                                Log Out
+                            </Button>
+                        </SheetClose>
                     </div>
                   ) : (
                     <div className="flex flex-col space-y-2">
@@ -131,7 +172,7 @@ export function Header() {
                     </div>
                   )}
                 </div>
-                 <div className="mt-8 border-t pt-4">
+                 <div className="border-t p-4">
                   <LanguageSwitcher />
                 </div>
               </div>

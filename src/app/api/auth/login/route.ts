@@ -34,6 +34,9 @@ export async function POST(request: Request) {
             user: {
                 email: email,
                 name: email.split('@')[0] || 'User',
+                // Adding mock data for profile page
+                fraudsReported: Math.floor(Math.random() * 20),
+                coins: Math.floor(Math.random() * 500),
             }
         });
 

@@ -7,6 +7,8 @@ import { ApiRoutes } from '@/constants/apiRoutes';
 interface User {
   name: string;
   email: string;
+  fraudsReported: number;
+  coins: number;
 }
 
 interface AuthContextType {

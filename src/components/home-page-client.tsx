@@ -7,10 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
-import { AlertTriangle, CheckCircle2, Phone, Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { AlertTriangle, CheckCircle2, Phone, Loader2, ArrowRight } from 'lucide-react';
 import { post } from '@/services/apiService';
 import { ApiRoutes } from '@/constants/apiRoutes';
 import { AppRoutes } from '@/constants/appRoutes';
@@ -36,8 +35,8 @@ export function HomePageClient() {
   const onSubmit: SubmitHandler<PhoneFormValues> = async (data) => {
     setSearchResult(null);
     try {
-      const result = await post<{ isFraud: boolean }>(ApiRoutes.CHECK_NUMBER, { phoneNumber: data.phoneNumber });
-      setSearchResult({ ...result, number: data.phoneNumber });
+      const result = await post<{ isFraud: boolean, number: string }>(ApiRoutes.CHECK_NUMBER, { phoneNumber: data.phoneNumber });
+      setSearchResult(result);
     } catch (error) {
       console.error('Search failed:', error);
       // Optionally, show a toast notification for the error
@@ -56,7 +55,7 @@ export function HomePageClient() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 -mt-16 relative z-10">
+      <section className="container mx-auto px-4 -mt-16 relative z-10 pb-20">
         <Card className="max-w-2xl mx-auto shadow-xl">
           <CardHeader>
             <CardTitle className="font-headline text-2xl flex items-center justify-center gap-2">
@@ -96,46 +95,28 @@ export function HomePageClient() {
         </Card>
 
         {searchResult && (
-          <div className="mt-8 max-w-2xl mx-auto animate-fade-in">
-            {searchResult.isFraud ? (
-              <Card className="bg-destructive/10 border-destructive text-destructive-foreground">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3 text-destructive">
-                    <AlertTriangle size={28} />
-                    <span className="font-headline text-2xl">Fraud Alert!</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-lg">
-                    This number, <strong>{searchResult.number}</strong>, has been reported for fraudulent activity. Do not trust this number.
-                  </p>
-                  <Button asChild variant="destructive" className="mt-4">
-                    <Link href={AppRoutes.REPORT_FRAUD}>Report Another Number</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : (
-              <Card className="bg-accent/10 border-accent text-accent-foreground">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3 text-green-700 dark:text-accent-foreground">
-                    <CheckCircle2 size={28} />
-                    <span className="font-headline text-2xl">Number Looks Safe</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="text-foreground">
-                  <p className="text-lg">
-                    No fraud has been registered against <strong>{searchResult.number}</strong>.
-                  </p>
-                  <p className="mt-2 text-muted-foreground">
-                    If you've had a suspicious interaction, help the community by reporting it.
-                  </p>
-                  <Button asChild variant="default" className="mt-4 bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Link href={AppRoutes.REPORT_FRAUD}>Report Fraud</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+           <Card className="mt-8 max-w-2xl mx-auto animate-fade-in">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3">
+                   {searchResult.isFraud ? <AlertTriangle className="text-destructive"/> : <CheckCircle2 className="text-green-600"/>}
+                   Result for {searchResult.number}
+                </CardTitle>
+                <CardDescription>
+                  {searchResult.isFraud ? "This number has reports of fraudulent activity." : "No fraud reports found for this number."}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                    Click the button below to see a detailed report, including community comments.
+                </p>
+                <Button asChild className="mt-4 w-full md:w-auto">
+                    <Link href={AppRoutes.NUMBER_DETAILS(searchResult.number)}>
+                        View Detailed Report
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                </Button>
+              </CardContent>
+           </Card>
         )}
       </section>
     </div>

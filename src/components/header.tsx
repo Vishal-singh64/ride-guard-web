@@ -2,13 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ShieldCheck, Menu } from 'lucide-react';
+import { ShieldCheck, Menu, LogOut } from 'lucide-react';
 import { Button } from '@/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/ui/sheet';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import LanguageSwitcher from './language-switcher';
 import { AppRoutes } from '@/constants/appRoutes';
+import { useAuth } from '@/hooks/use-auth';
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar';
 
 const navLinks = [
   { href: AppRoutes.HOME, label: 'Check Number' },
@@ -19,6 +21,11 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
+  const { isAuthenticated, user, logout } = useAuth();
+
+  const getInitials = (name = '') => {
+    return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -43,9 +50,29 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex flex-1 items-center justify-end space-x-4">
-          <div className="hidden md:flex">
-            <LanguageSwitcher />
+        <div className="flex flex-1 items-center justify-end space-x-2">
+          <div className="hidden md:flex items-center space-x-2">
+             <LanguageSwitcher />
+            {isAuthenticated ? (
+               <>
+                 <Avatar>
+                    <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.name}`} alt={user?.name} />
+                    <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
+                 </Avatar>
+                <Button variant="ghost" size="icon" onClick={logout} aria-label="Logout">
+                  <LogOut className="h-5 w-5" />
+                </Button>
+               </>
+            ) : (
+              <>
+                 <Button asChild variant="ghost">
+                    <Link href={AppRoutes.LOGIN}>Login</Link>
+                 </Button>
+                 <Button asChild>
+                    <Link href={AppRoutes.REGISTER}>Register</Link>
+                 </Button>
+              </>
+            )}
           </div>
           <Sheet>
             <SheetTrigger asChild>
@@ -76,6 +103,35 @@ export function Header() {
                   ))}
                 </nav>
                 <div className="mt-8 border-t pt-4">
+                  {isAuthenticated ? (
+                     <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <Avatar>
+                                <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.name}`} alt={user?.name} />
+                                <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
+                            </Avatar>
+                            <span>{user?.name}</span>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => { logout(); /* need to close sheet here */}}>
+                            <LogOut />
+                        </Button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col space-y-2">
+                        <SheetClose asChild>
+                          <Button asChild variant="outline" className="w-full">
+                              <Link href={AppRoutes.LOGIN}>Login</Link>
+                          </Button>
+                        </SheetClose>
+                        <SheetClose asChild>
+                           <Button asChild className="w-full">
+                            <Link href={AppRoutes.REGISTER}>Register</Link>
+                          </Button>
+                        </SheetClose>
+                    </div>
+                  )}
+                </div>
+                 <div className="mt-8 border-t pt-4">
                   <LanguageSwitcher />
                 </div>
               </div>

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
 import { Globe } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
 
 const languages = [
   { key: 'en', code: 'en', name: 'English' },
@@ -24,36 +25,40 @@ const languages = [
 
 const LanguageSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const googleTranslateElementInit = () => {
-      new window.google.translate.TranslateElement(
-        {
-          pageLanguage: 'en',
-          includedLanguages: 'en,hi,gu,mr,pa',
-          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false,
-        },
-        'google_translate_element'
-      );
+      if (window.google && window.google.translate) {
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,gu,mr,pa',
+            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false,
+          },
+          'google_translate_element'
+        );
+      }
     };
 
     const scriptId = 'google-translate-script';
+    
+    window.googleTranslateElementInit = googleTranslateElementInit;
+
     if (!document.getElementById(scriptId)) {
       const addScript = document.createElement('script');
       addScript.id = scriptId;
       addScript.src = `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
+      addScript.async = true;
       document.body.appendChild(addScript);
-      window.googleTranslateElementInit = googleTranslateElementInit;
-    } else if (typeof window.googleTranslateElementInit === 'undefined') {
-        window.googleTranslateElementInit = googleTranslateElementInit;
     }
   }, []);
 
   const handleLanguageChange = (langCode: string) => {
     let retries = 0;
-    const maxRetries = 10;
-    const interval = 200; // ms
+    const maxRetries = 25;
+    const interval = 200;
 
     const tryChangeLanguage = () => {
         const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
@@ -66,6 +71,12 @@ const LanguageSwitcher = () => {
             setTimeout(tryChangeLanguage, interval);
         } else {
             console.error("Google Translate element could not be found after several retries.");
+            setIsOpen(false);
+            toast({
+                variant: "destructive",
+                title: "Translation Failed",
+                description: "The language translator could not be initialized. Please try again later.",
+            });
         }
     };
 

@@ -7,11 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import LanguageSwitcher from './language-switcher';
 
 const navLinks = [
   { href: '/', label: 'Check Number' },
   { href: '/report-fraud', label: 'Report Fraud' },
   { href: '/about', label: 'About Us' },
+  { href: '/download', label: 'Download' },
 ];
 
 export function Header() {
@@ -41,6 +43,9 @@ export function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-4">
+          <div className="hidden md:flex">
+            <LanguageSwitcher />
+          </div>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -69,6 +74,9 @@ export function Header() {
                     </SheetClose>
                   ))}
                 </nav>
+                <div className="mt-8 border-t pt-4">
+                  <LanguageSwitcher />
+                </div>
               </div>
             </SheetContent>
           </Sheet>

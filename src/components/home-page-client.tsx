@@ -47,8 +47,9 @@ export function HomePageClient({ checkNumberAction }: HomePageClientProps) {
 
   return (
     <div className="w-full">
-      <section className="bg-secondary/50 py-20 md:py-32">
-        <div className="container mx-auto text-center px-4">
+      <section className="relative overflow-hidden py-20 md:py-32">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/20 bg-[length:200%_200%] animate-background-pan" />
+        <div className="container mx-auto text-center px-4 relative z-10">
           <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tight">Protect Your Ride</h1>
           <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground">
             Instantly check phone numbers for reported fraud. Keep our driver community safe, one check at a time.
@@ -56,7 +57,7 @@ export function HomePageClient({ checkNumberAction }: HomePageClientProps) {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 -mt-16">
+      <section className="container mx-auto px-4 -mt-16 relative z-10">
         <Card className="max-w-2xl mx-auto shadow-xl">
           <CardHeader>
             <CardTitle className="font-headline text-2xl flex items-center gap-2">

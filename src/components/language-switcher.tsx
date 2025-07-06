@@ -51,14 +51,25 @@ const LanguageSwitcher = () => {
   }, []);
 
   const handleLanguageChange = (langCode: string) => {
-    const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
-    if (selectElement) {
-        selectElement.value = langCode;
-        selectElement.dispatchEvent(new Event('change', { bubbles: true }));
-        setIsOpen(false);
-    } else {
-        console.error("Google Translate element not found. Please try again in a moment.");
-    }
+    let retries = 0;
+    const maxRetries = 10;
+    const interval = 200; // ms
+
+    const tryChangeLanguage = () => {
+        const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
+        if (selectElement) {
+            selectElement.value = langCode;
+            selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+            setIsOpen(false);
+        } else if (retries < maxRetries) {
+            retries++;
+            setTimeout(tryChangeLanguage, interval);
+        } else {
+            console.error("Google Translate element could not be found after several retries.");
+        }
+    };
+
+    tryChangeLanguage();
   };
 
   return (

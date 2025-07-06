@@ -98,14 +98,14 @@ export default function NumberDetailsPage() {
                 <CardHeader>
                     <div className="flex justify-between items-start">
                         <div>
-                             <CardTitle className="font-headline text-4xl flex items-center gap-3">
+                             <CardTitle className="font-headline text-2xl md:text-4xl flex items-center gap-3">
                                 {isFraudulent ? 
                                     <AlertTriangle className="text-destructive h-8 w-8" /> : 
                                     <Hash className="text-primary h-8 w-8" />
                                 }
                                 {details.phoneNumber}
                             </CardTitle>
-                            <CardDescription className="mt-2 text-lg">
+                            <CardDescription className="mt-2 text-base md:text-lg">
                                 {isFraudulent ? "This number has been reported for fraudulent activities." : "No fraud reports for this number."}
                             </CardDescription>
                         </div>
@@ -135,7 +135,7 @@ export default function NumberDetailsPage() {
 
                     <div className="space-y-8">
                         <div>
-                            <h3 className="text-2xl font-headline font-semibold mb-4 flex items-center gap-2">
+                            <h3 className="text-xl md:text-2xl font-headline font-semibold mb-4 flex items-center gap-2">
                                 <MessageSquare className="text-primary" /> Community Reports
                             </h3>
                             <div className="space-y-4">
@@ -166,7 +166,7 @@ export default function NumberDetailsPage() {
                         </div>
 
                         <div>
-                            <h3 className="text-2xl font-headline font-semibold mb-4">Add Your Report</h3>
+                            <h3 className="text-xl md:text-2xl font-headline font-semibold mb-4">Add Your Report</h3>
                             {isAuthenticated ? (
                                 <AddCommentForm phoneNumber={details.phoneNumber} onCommentAdded={handleCommentAdded} />
                             ) : (

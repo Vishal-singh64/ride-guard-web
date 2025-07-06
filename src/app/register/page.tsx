@@ -8,7 +8,7 @@ export default function RegisterPage() {
         <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8 animate-fade-in flex justify-center items-center">
             <Card className="w-full max-w-md shadow-lg">
                 <CardHeader className="text-center">
-                    <CardTitle className="font-headline text-3xl">Create an Account</CardTitle>
+                    <CardTitle className="font-headline text-2xl md:text-3xl">Create an Account</CardTitle>
                     <CardDescription>
                        Join Ride Guard to help our community stay safe.
                     </CardDescription>

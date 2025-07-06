@@ -27,7 +27,7 @@ export default function AboutPage() {
                     <h1 className="text-4xl font-headline font-bold tracking-tight sm:text-5xl lg:text-6xl">
                         A Safer Ride for Everyone
                     </h1>
-                    <p className="mt-6 max-w-2xl mx-auto text-xl text-muted-foreground">
+                    <p className="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground">
                         Empowering cab drivers with the information they need to stay safe from fraud and build a more secure community.
                     </p>
                 </div>

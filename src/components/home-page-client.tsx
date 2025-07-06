@@ -48,7 +48,7 @@ export function HomePageClient() {
       <div className="w-full max-w-2xl">
         <div className="mb-8 flex items-center justify-center gap-3 animate-fade-in">
           <ShieldCheck className="h-12 w-12 text-primary md:h-16 md:w-16" />
-          <h1 className="font-headline text-5xl font-bold text-foreground md:text-6xl">
+          <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl font-bold text-foreground">
             Ride Guard
           </h1>
         </div>
@@ -68,7 +68,7 @@ export function HomePageClient() {
                                 <Input 
                                     placeholder="Enter phone number..." 
                                     {...field} 
-                                    className="h-14 text-lg pl-12 w-full rounded-full shadow-lg focus-visible:ring-primary focus-visible:ring-2" 
+                                    className="h-12 text-base md:h-14 md:text-lg pl-12 w-full rounded-full shadow-lg focus-visible:ring-primary focus-visible:ring-2" 
                                 />
                             </div>
                         </FormControl>
@@ -76,7 +76,7 @@ export function HomePageClient() {
                         </FormItem>
                     )}
                     />
-                    <Button type="submit" size="lg" className="h-12 px-8 text-lg rounded-full" disabled={isSubmitting}>
+                    <Button type="submit" size="lg" className="h-12 px-6 text-base md:text-lg md:px-8 rounded-full" disabled={isSubmitting}>
                     {isSubmitting ? (
                         <>
                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />

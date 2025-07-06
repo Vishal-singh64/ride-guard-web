@@ -36,13 +36,13 @@ export default function ProfilePage() {
             <div className="max-w-4xl mx-auto">
                 <Card className="shadow-lg mb-8">
                     <CardContent className="p-6 flex flex-col md:flex-row items-center gap-6">
-                        <Avatar className="h-28 w-28 border-4 border-primary">
+                        <Avatar className="h-24 w-24 md:h-28 md:w-28 border-4 border-primary">
                             <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} alt={user.name} />
-                            <AvatarFallback className="text-4xl">{getInitials(user.name)}</AvatarFallback>
+                            <AvatarFallback className="text-3xl md:text-4xl">{getInitials(user.name)}</AvatarFallback>
                         </Avatar>
                         <div className="text-center md:text-left">
-                            <h1 className="font-headline text-4xl font-bold">{user.name}</h1>
-                            <p className="text-muted-foreground text-lg mt-1 flex items-center gap-2 justify-center md:justify-start">
+                            <h1 className="font-headline text-3xl md:text-4xl font-bold">{user.name}</h1>
+                            <p className="text-muted-foreground text-base md:text-lg mt-1 flex items-center gap-2 justify-center md:justify-start">
                                 <Mail className="h-5 w-5" />
                                 {user.email}
                             </p>
@@ -57,7 +57,7 @@ export default function ProfilePage() {
                             <Flag className="h-5 w-5 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-4xl font-bold">{user.fraudsReported}</div>
+                            <div className="text-3xl md:text-4xl font-bold">{user.fraudsReported}</div>
                             <p className="text-xs text-muted-foreground">reports submitted to help the community</p>
                         </CardContent>
                     </Card>
@@ -67,7 +67,7 @@ export default function ProfilePage() {
                             <Coins className="h-5 w-5 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-4xl font-bold">{user.coins}</div>
+                            <div className="text-3xl md:text-4xl font-bold">{user.coins}</div>
                             <p className="text-xs text-muted-foreground">for your valuable contributions</p>
                         </CardContent>
                     </Card>

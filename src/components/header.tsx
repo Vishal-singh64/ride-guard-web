@@ -8,12 +8,13 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/s
 import { cn } from '@/lib/utils';
 import React from 'react';
 import LanguageSwitcher from './language-switcher';
+import { AppRoutes } from '@/constants/appRoutes';
 
 const navLinks = [
-  { href: '/', label: 'Check Number' },
-  { href: '/report-fraud', label: 'Report Fraud' },
-  { href: '/about', label: 'About Us' },
-  { href: '/download', label: 'Download' },
+  { href: AppRoutes.HOME, label: 'Check Number' },
+  { href: AppRoutes.REPORT_FRAUD, label: 'Report Fraud' },
+  { href: AppRoutes.ABOUT, label: 'About Us' },
+  { href: AppRoutes.DOWNLOAD, label: 'Download' },
 ];
 
 export function Header() {

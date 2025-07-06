@@ -11,6 +11,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { AlertTriangle, CheckCircle2, Phone, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { post } from '@/services/apiService';
+import { ApiRoutes } from '@/constants/apiRoutes';
+import { AppRoutes } from '@/constants/appRoutes';
 
 const phoneSchema = z.object({
   phoneNumber: z.string().min(10, 'Please enter a valid phone number with at least 10 digits.'),
@@ -23,11 +26,7 @@ type SearchResult = {
   number: string;
 } | null;
 
-interface HomePageClientProps {
-  checkNumberAction: (phoneNumber: string) => Promise<{ isFraud: boolean }>;
-}
-
-export function HomePageClient({ checkNumberAction }: HomePageClientProps) {
+export function HomePageClient() {
   const [searchResult, setSearchResult] = useState<SearchResult>(null);
   const { formState: { isSubmitting }, ...form } = useForm<PhoneFormValues>({
     resolver: zodResolver(phoneSchema),
@@ -37,7 +36,7 @@ export function HomePageClient({ checkNumberAction }: HomePageClientProps) {
   const onSubmit: SubmitHandler<PhoneFormValues> = async (data) => {
     setSearchResult(null);
     try {
-      const result = await checkNumberAction(data.phoneNumber);
+      const result = await post<{ isFraud: boolean }>(ApiRoutes.CHECK_NUMBER, { phoneNumber: data.phoneNumber });
       setSearchResult({ ...result, number: data.phoneNumber });
     } catch (error) {
       console.error('Search failed:', error);
@@ -111,7 +110,7 @@ export function HomePageClient({ checkNumberAction }: HomePageClientProps) {
                     This number, <strong>{searchResult.number}</strong>, has been reported for fraudulent activity. Do not trust this number.
                   </p>
                   <Button asChild variant="destructive" className="mt-4">
-                    <Link href="/report-fraud">Report Another Number</Link>
+                    <Link href={AppRoutes.REPORT_FRAUD}>Report Another Number</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -131,7 +130,7 @@ export function HomePageClient({ checkNumberAction }: HomePageClientProps) {
                     If you've had a suspicious interaction, help the community by reporting it.
                   </p>
                   <Button asChild variant="default" className="mt-4 bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Link href="/report-fraud">Report Fraud</Link>
+                    <Link href={AppRoutes.REPORT_FRAUD}>Report Fraud</Link>
                   </Button>
                 </CardContent>
               </Card>

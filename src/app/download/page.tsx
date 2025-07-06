@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Apple, Smartphone } from 'lucide-react';
+import { AppRoutes } from '@/constants/appRoutes';
 
 export default function DownloadPage() {
     return (
@@ -24,7 +25,7 @@ export default function DownloadPage() {
                         <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                             <div className="inline-flex rounded-md shadow">
                                 <Button asChild size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
-                                    <Link href="#" aria-label="Download on the App Store">
+                                    <Link href={AppRoutes.APP_STORE} aria-label="Download on the App Store">
                                         <Apple className="mr-2 h-6 w-6"/>
                                         App Store
                                     </Link>
@@ -32,7 +33,7 @@ export default function DownloadPage() {
                             </div>
                             <div className="ml-4 inline-flex rounded-md shadow">
                                 <Button asChild size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
-                                    <Link href="#" aria-label="Get it on Google Play">
+                                    <Link href={AppRoutes.GOOGLE_PLAY} aria-label="Get it on Google Play">
                                         <Smartphone className="mr-2 h-6 w-6"/>
                                         Google Play
                                     </Link>
